@@ -8,17 +8,19 @@ const router = Router();
 
 // Example API route
 router.post("/generate-proof", async (req: Request, res: Response) => {
-  const provider = new ethers.providers.JsonRpcProvider(
+  const provider = new ethers.JsonRpcProvider(
     process.env.RPC_ENDPOINT
   );
   const privateKey = process.env.PRIVATE_KEY!;
+  console.log(process.env.RPC_ENDPOINT)
   console.log(privateKey)
-  /*const signer = new ethers.Wallet(privateKey, provider);
+  console.log(req.body.amount)
+  const signer = new ethers.Wallet(privateKey, provider);
   const sender = await newUser(signer);
 
   const utxo = newUTXO(req.body.amount, sender);
 
-  const result = await prepareDepositProof(sender, utxo);
+  /*const result = await prepareDepositProof(sender, utxo);
 
   const jsonString = JSON.stringify(result, (_, value) =>
     typeof value === "bigint" ? value.toString() : value
