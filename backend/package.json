@@ -1,0 +1,32 @@
+{
+    "name": "zeto-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node dist/index.js",
+        "dev": "nodemon src/index.ts",
+        "build": "tsc"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^1.7.5",
+        "cors": "^2.8.5",
+        "dotenv": "16.4.5",
+        "express": "^4.19.2",
+        "fs": "^0.0.1-security",
+        "maci-crypto": "1.1.1",
+        "poseidon-lite": "^0.3.0",
+        "snarkjs": "^0.7.4",
+        "zeto-js": "file:./zkp/js"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/node": "^22.5.0",
+        "nodemon": "^3.1.4",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.5.4"
+    }
+}
