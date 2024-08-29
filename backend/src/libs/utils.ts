@@ -16,11 +16,11 @@
 
 import { ContractTransactionReceipt, Signer, BigNumberish, AddressLike } from 'ethers';
 import { genKeypair, formatPrivKeyForBabyJub, genEcdhSharedKey } from 'maci-crypto';
-import { Poseidon, newSalt, tokenUriHash } from "zeto-js";
-
-const poseidonHash3 = Poseidon.poseidon3;
-const poseidonHash4 = Poseidon.poseidon4;
-const poseidonHash5 = Poseidon.poseidon5;
+import { newSalt, tokenUriHash } from "zeto-js";
+import { poseidon3, poseidon4, poseidon5 } from 'poseidon-lite'
+const poseidonHash3 = poseidon3;
+const poseidonHash4 = poseidon4;
+const poseidonHash5 = poseidon5;
 
 export interface UTXO {
   value?: number;
@@ -55,7 +55,8 @@ export async function newUser(signer: Signer) {
 
 export function newUTXO(value: number, owner: User, salt?: BigInt): UTXO {
   if (!salt) salt = newSalt();
-  const hash = poseidonHash4([BigInt(value), salt, owner.babyJubPublicKey[0], owner.babyJubPublicKey[1]]);
+  const hash = poseidonHash4([BigInt(value), Number(salt), 
+    Number(owner.babyJubPublicKey[0]), Number(owner.babyJubPublicKey[1])]);
   return { value, hash, salt };
 }
 
@@ -66,7 +67,8 @@ export function newAssetUTXO(tokenId: number, uri: string, owner: User, salt?: B
 }
 
 export function newNullifier(utxo: UTXO, owner: User): UTXO {
-  const hash = poseidonHash3([BigInt(utxo.value!), utxo.salt, owner.formattedPrivateKey]);
+  const hash = poseidonHash3([BigInt(utxo.value!), 
+    Number(utxo.salt), Number(owner.formattedPrivateKey)]);
   return { value: utxo.value, hash, salt: utxo.salt };
 }
 
