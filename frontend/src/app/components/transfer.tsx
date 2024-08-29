@@ -3,6 +3,7 @@ import { parseEther } from "viem";
 import { type BaseError, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { erc20Abi } from "@/config/erc20Abi";
 import { zetoAnonAbi } from "@/config/zetoAnonAbi";
+import axios from "axios";
 
 const erc20Address = "0x4a669e1267f6da8b51e21bc3c402a8614ae7cd1a";
 const zetoTokenAddress = "0x26366dd4C51b84490e01233A491Af142a6Ab96Ba";
@@ -33,6 +34,15 @@ export const Transfer = () => {
         console.log('handleDeposit', amount, recipient)
         const amountInWei = parseEther(amount);
         console.log("amountInWei", amountInWei.toString());
+
+        // Call api to generate the proof
+        const response = await axios.post(
+        "http://localhost:3001/api/generate-proof",
+        { amount }
+        );
+        const { outputCommitments, encodedProof } = await response.data;
+        console.log({ outputCommitments, encodedProof });
+
         // Step2: Deposit
         writeContract2({
             address: zetoTokenAddress,
