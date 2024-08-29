@@ -39,7 +39,7 @@ export const ConnectBtn = () => {
         }}
         disabled={isConnecting}
       >
-        { isConnecting ? 'Connecting...' : 'Connect your wallet' }
+        { isConnecting ? 'Connecting...' : 'Connect web3 wallet' }
       </button>
     );
   }

@@ -1,7 +1,8 @@
 import { useState } from "react";
 
 const handleSubmit = async (e: React.FormEvent) => {
-    
+    e.preventDefault();
+    console.log('handleSubmit')
 }
 
 export const Transfer = () => {
