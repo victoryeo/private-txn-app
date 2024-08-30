@@ -74,8 +74,11 @@ export function newAssetUTXO(tokenId: number, uri: string, owner: User, salt?: B
 }
 
 export function newNullifier(utxo: UTXO, owner: User): UTXO {
-  const hash = poseidonHash3([BigInt(utxo.value!), 
-    Number(utxo.salt), Number(owner.formattedPrivateKey)]);
+  const hash = poseidonHash3([
+    BigInt(utxo.value!), 
+    utxo.salt!.toString(), 
+    owner.formattedPrivateKey.toString()
+  ]);
   return { value: utxo.value, hash, salt: utxo.salt };
 }
 
