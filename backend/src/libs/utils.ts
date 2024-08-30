@@ -55,8 +55,15 @@ export async function newUser(signer: Signer) {
 
 export function newUTXO(value: number, owner: User, salt?: BigInt): UTXO {
   if (!salt) salt = newSalt();
-  const hash = poseidonHash4([BigInt(value), Number(salt), 
-    Number(owner.babyJubPublicKey[0]), Number(owner.babyJubPublicKey[1])]);
+  console.log(salt)
+  console.log(salt?.toString())
+
+  const hash = poseidonHash4([
+    BigInt(value), 
+    salt!.toString(), 
+    owner.babyJubPublicKey[0].toString(), 
+    owner.babyJubPublicKey[1].toString()
+  ]);
   return { value, hash, salt };
 }
 
