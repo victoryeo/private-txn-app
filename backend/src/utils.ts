@@ -65,7 +65,7 @@ export async function prepareDepositProof(signer: User, output: UTXO) {
   const timeWithnessCalculation = Date.now() - startWitnessCalculation;
 
   const startProofGeneration = Date.now();
-  const { proof, publicSignals } = await groth16.prove(provingKeyFile, witness) as { proof: BigNumberish[]; publicSignals: BigNumberish[] };
+  const { proof, publicSignals } = await groth16.prove(provingKeyFile, witness) as unknown as { proof: BigNumberish[]; publicSignals: BigNumberish[] };
   const timeProofGeneration = Date.now() - startProofGeneration;
 
   console.log(`Witness calculation time: ${timeWithnessCalculation}ms. Proof generation time: ${timeProofGeneration}ms.`);
@@ -111,7 +111,7 @@ export async function prepareNullifierWithdrawProof(signer: User, inputs: UTXO[]
   const timeWithnessCalculation = Date.now() - startWitnessCalculation;
 
   const startProofGeneration = Date.now();
-  const { proof, publicSignals } = await groth16.prove(provingKeyFile, witness) as { proof: BigNumberish[]; publicSignals: BigNumberish[] };
+  const { proof, publicSignals } = await groth16.prove(provingKeyFile, witness) as unknown as { proof: BigNumberish[]; publicSignals: BigNumberish[] };
   const timeProofGeneration = Date.now() - startProofGeneration;
 
   console.log(`Witness calculation time: ${timeWithnessCalculation}ms. Proof generation time: ${timeProofGeneration}ms.`);
@@ -153,7 +153,7 @@ export async function prepareWithdrawProof(signer: User, inputs: UTXO[], output:
   const timeWithnessCalculation = Date.now() - startWitnessCalculation;
 
   const startProofGeneration = Date.now();
-  const { proof, publicSignals } = await groth16.prove(provingKeyFile, witness) as { proof: BigNumberish[]; publicSignals: BigNumberish[] };
+  const { proof, publicSignals } = await groth16.prove(provingKeyFile, witness) as unknown as { proof: BigNumberish[]; publicSignals: BigNumberish[] };
   const timeProofGeneration = Date.now() - startProofGeneration;
 
   console.log(`Witness calculation time: ${timeWithnessCalculation}ms. Proof generation time: ${timeProofGeneration}ms.`);
