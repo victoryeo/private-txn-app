@@ -20,9 +20,9 @@ router.post("/generate-proof", async (req: Request, res: Response) => {
 
   const utxo = newUTXO(req.body.amount, sender);
 
-  /*const result = await prepareDepositProof(sender, utxo);
+  const result = await prepareDepositProof(sender, utxo);
 
-  const jsonString = JSON.stringify(result, (_, value) =>
+  /*const jsonString = JSON.stringify(result, (_, value) =>
     typeof value === "bigint" ? value.toString() : value
   );
 
