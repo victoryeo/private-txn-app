@@ -30,11 +30,15 @@ function provingKeysRoot() {
 }
 
 export function loadProvingKeys(type: string) {
-  const provingKeyFile = path.join(provingKeysRoot(), `${type}.zkey`);
-  console.log(path.join(process.cwd(), provingKeysRoot()))
+  const provingKeysRoot = process.env.PROVING_KEYS_ROOT;
+  if (!provingKeysRoot) {
+    throw new Error('PROVING_KEYS_ROOT is not set');
+  }
+  console.log(path.join(process.cwd(), `zkp/circuits/${provingKeysRoot}`))
+  const provingKeyFile = path.join(process.cwd(), provingKeysRoot, `${type}.zkey`);
   const verificationKey = JSON.parse(
     new TextDecoder().decode(
-      readFileSync(path.join(process.cwd(), provingKeysRoot(), `${type}-vkey.json`))
+      readFileSync(path.join(process.cwd(), `zkp/circuits/${provingKeysRoot}`, `${type}-vkey.json`))
     )
   );
   return {
@@ -57,7 +61,7 @@ export async function prepareDepositProof(signer: User, output: UTXO) {
 
   const circuit = await loadCircuit('check_hashes_value');
   const { provingKeyFile } = loadProvingKeys('check_hashes_value');
-
+  console.log(circuit)
   const startWitnessCalculation = Date.now();
   const witness = await circuit.calculateWTNSBin(
     inputObj,
