@@ -31,9 +31,10 @@ function provingKeysRoot() {
 
 export function loadProvingKeys(type: string) {
   const provingKeyFile = path.join(provingKeysRoot(), `${type}.zkey`);
+  console.log(path.join(process.cwd(), provingKeysRoot()))
   const verificationKey = JSON.parse(
     new TextDecoder().decode(
-      readFileSync(path.join(provingKeysRoot(), `${type}-vkey.json`))
+      readFileSync(path.join(process.cwd(), provingKeysRoot(), `${type}-vkey.json`))
     )
   );
   return {

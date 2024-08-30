@@ -27,8 +27,9 @@ function loadCircuit(type) {
   if (!circuitsRoot) {
     throw new Error('CIRCUITS_ROOT is not set');
   }
-  const WitnessCalculator = require(path.join(circuitsRoot, `${type}_js/witness_calculator.js`));
-  const buffer = readFileSync(path.join(circuitsRoot, `${type}_js/${type}.wasm`));
+  console.log(process.cwd())
+  const WitnessCalculator = require(path.join(process.cwd(), `zkp/circuits/${circuitsRoot}`, `${type}_js/witness_calculator.js`));
+  const buffer = readFileSync(path.join(process.cwd(), `zkp/circuits/${circuitsRoot}`, `${type}_js/${type}.wasm`));
   return WitnessCalculator(buffer);
 }
 
