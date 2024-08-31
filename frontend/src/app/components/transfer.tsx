@@ -7,7 +7,7 @@ import axios from "axios";
 import { useReadContract } from 'wagmi'
 import { privateKeyToAccount } from 'viem/accounts'
 
-const erc20Address = "0x4a669e1267f6da8b51e21bc3c402a8614ae7cd1a";
+const erc20Address = "0x7fbEB60f7275E99d115F9f409816C403bFf656Aa";
 const zetoTokenAddress = "0x26366dd4C51b84490e01233A491Af142a6Ab96Ba";
 
 export const Transfer = () => {
