@@ -17,23 +17,23 @@ export const Transfer = () => {
     const handleApprove = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('handleApprove', amount, recipient)
-        const amountInWei = parseEther(amount);
-        console.log("amountInWei", amountInWei.toString());
+        //const amountInWei = parseEther(amount);
+        //console.log("amountInWei", amountInWei.toString());
 
         // Step1: Get approval
         writeContract1({
             address: erc20Address,
             abi: erc20Abi,
             functionName: "approve",
-            args: [zetoTokenAddress, amountInWei.toString()],
+            args: [zetoTokenAddress, amount.toString()],
         });
     }
 
     const handleDeposit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('handleDeposit', amount, recipient)
-        const amountInWei = parseEther(amount);
-        console.log("amountInWei", amountInWei.toString());
+        //const amountInWei = parseEther(amount);
+        //console.log("amountInWei", amountInWei.toString());
 
         // Call api to generate the proof
         const response = await axios.post(
@@ -79,7 +79,7 @@ export const Transfer = () => {
             <div></div>
             <div></div>
             <div className="mb-3 text-2xl font-semibold">
-                <label htmlFor="amount">Amount:</label>
+                <label htmlFor="amount">Amount: (in wei)</label>
                 <input
                 type="text"
                 name="amount"
