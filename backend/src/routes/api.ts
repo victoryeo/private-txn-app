@@ -22,14 +22,14 @@ router.post("/generate-proof", async (req: Request, res: Response) => {
 
   const result = await prepareDepositProof(sender, utxo);
 
-  /*const jsonString = JSON.stringify(result, (_, value) =>
+  const jsonString = JSON.stringify(result, (_, value) =>
     typeof value === "bigint" ? value.toString() : value
   );
 
-  console.log("console result", result);*/
+  console.log("jsonString", jsonString);
 
   res.setHeader("Content-Type", "application/json");
-  res.send("jsonString");
+  res.send(jsonString);
 });
 
 export default router;
