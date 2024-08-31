@@ -4,6 +4,8 @@ import { type BaseError, useWaitForTransactionReceipt, useWriteContract } from "
 import { erc20Abi } from "@/config/erc20Abi";
 import { zetoAnonAbi } from "@/config/zetoAnonAbi";
 import axios from "axios";
+import { useReadContract } from 'wagmi'
+import { privateKeyToAccount } from 'viem/accounts'
 
 const erc20Address = "0x4a669e1267f6da8b51e21bc3c402a8614ae7cd1a";
 const zetoTokenAddress = "0x26366dd4C51b84490e01233A491Af142a6Ab96Ba";
@@ -13,6 +15,16 @@ export const Transfer = () => {
     const [recipient, setRecipient] = useState("");
     const { data: hash1, error: error1, isPending: isPending1, writeContract: writeContract1} = useWriteContract();
     const { data: hash2, error: error2, isPending: isPending2, writeContract: writeContract2 } = useWriteContract();
+
+    const myAccount = privateKeyToAccount(`0x${process.env.NEXT_PUBLIC_PRIVATE_KEY}`)
+    console.log('account', myAccount.address)
+    const { data: balance } = useReadContract({
+        address: erc20Address,
+        abi: erc20Abi,
+        functionName: 'balanceOf',
+        args: [myAccount.address]
+    })
+    console.log('balance', balance)
 
     const handleApprove = async (e: React.FormEvent) => {
         e.preventDefault();

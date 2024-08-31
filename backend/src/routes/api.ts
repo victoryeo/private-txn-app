@@ -3,6 +3,7 @@ import { ethers, BigNumberish } from "ethers";
 import { newUser, newUTXO, User, UTXO } from "../libs/utils";
 import { prepareDepositProof } from "../utils";
 import 'dotenv/config'
+import { parseEther } from "viem";
 
 const router = Router();
 
@@ -15,6 +16,7 @@ router.post("/generate-proof", async (req: Request, res: Response) => {
   console.log(process.env.RPC_ENDPOINT)
   console.log(privateKey)
   console.log(req.body.amount)
+  //const amountInWei = parseEther(req.body.amount);
   const signer = new ethers.Wallet(privateKey, provider);
   const sender = await newUser(signer);
 
