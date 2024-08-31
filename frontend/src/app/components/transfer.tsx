@@ -41,14 +41,14 @@ export const Transfer = () => {
         { amount }
         );
         const { outputCommitments, encodedProof } = await response.data;
-        console.log({ outputCommitments, encodedProof });
+        console.log('result',{ outputCommitments, encodedProof });
 
         // Step2: Deposit
         writeContract2({
             address: zetoTokenAddress,
             abi: zetoAnonAbi,
             functionName: "deposit",
-            args: [amount, 0, 0],
+            args: [amount, outputCommitments[0], encodedProof],
         });
     }
 
