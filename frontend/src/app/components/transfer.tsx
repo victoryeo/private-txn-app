@@ -7,8 +7,11 @@ import axios from "axios";
 import { useReadContract } from 'wagmi'
 import { privateKeyToAccount } from 'viem/accounts'
 
-const erc20Address = "0x7fbEB60f7275E99d115F9f409816C403bFf656Aa";
-const zetoTokenAddress = "0x26366dd4C51b84490e01233A491Af142a6Ab96Ba";
+// the address is deployed from forge create
+//const erc20Address = "0x7fbEB60f7275E99d115F9f409816C403bFf656Aa";
+// the erc20 and zeto contract are deployed from script in https://github.com/hyperledger-labs/zeto.git
+const erc20Address = "0x81075516bc67af29421bB85c2FD1cC0917AF27d7";
+const zetoTokenAddress = "0xBf44A392daECE0576D9c0d2CCC3e2e9a6C603a47";
 
 export const Transfer = () => {
     const [amount, setAmount] = useState("");
