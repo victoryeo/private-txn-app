@@ -16,8 +16,8 @@ const zetoTokenAddress = "0xBf44A392daECE0576D9c0d2CCC3e2e9a6C603a47";
 export const Transfer = () => {
     const [amount, setAmount] = useState("");
     const [recipient, setRecipient] = useState("");
-    const { data: hash1, error: error1, isPending: isPending1, writeContract: writeContract1} = useWriteContract();
-    const { data: hash2, error: error2, isPending: isPending2, writeContract: writeContract2 } = useWriteContract();
+    const { data: hash1, error: error1, isPending: isPending1, writeContract: writeContractApprove} = useWriteContract();
+    const { data: hash2, error: error2, isPending: isPending2, writeContract: writeContractDeposit } = useWriteContract();
     const { data: hash3, error: error3, writeContract: writeContractMint } = useWriteContract();
 
     const myAccount = privateKeyToAccount(`0x${process.env.NEXT_PUBLIC_PRIVATE_KEY}`)
@@ -49,7 +49,7 @@ export const Transfer = () => {
         //console.log("amountInWei", amountInWei.toString());
 
         // Step1: Get approval
-        writeContract1({
+        writeContractApprove({
             address: erc20Address,
             abi: erc20Abi,
             functionName: "approve",
@@ -72,7 +72,7 @@ export const Transfer = () => {
         console.log('result',{ outputCommitments, encodedProof });
 
         // Step2: Deposit
-        writeContract2({
+        writeContractDeposit({
             address: zetoTokenAddress,
             abi: zetoAnonAbi,
             functionName: "deposit",
