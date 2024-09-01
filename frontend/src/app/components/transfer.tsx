@@ -55,35 +55,36 @@ export const Transfer = () => {
     const handleMint = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('handleMint', amount, recipient)
+        const amountInWei = parseEther(amount);
+        console.log("amountInWei", amountInWei.toString());
         writeContractMint({
             address: erc20Address,
             abi: erc20Abi,
             functionName: "mint",
-            args: [myAccount.address, amount.toString()],
+            args: [myAccount.address, amountInWei.toString()],
         });
     }
 
     const handleApprove = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('handleApprove', amount, recipient)
-        //const amountInWei = parseEther(amount);
-        //console.log("amountInWei", amountInWei.toString());
+        const amountInWei = parseEther(amount);
+        console.log("amountInWei", amountInWei.toString());
 
         // Step1: Get approval
         writeContractApprove({
             address: erc20Address,
             abi: erc20Abi,
             functionName: "approve",
-            args: [zetoTokenAddress, amount.toString()],
+            args: [zetoTokenAddress, amountInWei.toString()],
         });
     }
 
     const handleDeposit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('handleDeposit', amount, recipient)
-        //const amountInWei = parseEther(amount);
-        //console.log("amountInWei", amountInWei.toString());
-
+        const amountInWei = parseEther(amount);
+        console.log("amountInWei", amountInWei.toString());
         // Call api to generate the proof
         const response = await axios.post(
         "http://localhost:3001/api/generate-proof",
@@ -128,7 +129,7 @@ export const Transfer = () => {
             <div></div>
             <div></div>
             <div className="mb-3 text-2xl font-semibold">
-                <label htmlFor="amount">Amount: (in wei)</label>
+                <label htmlFor="amount">Token Amount:</label>
                 <input
                 type="text"
                 name="amount"
