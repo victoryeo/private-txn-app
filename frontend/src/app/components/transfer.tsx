@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { parseEther } from "viem";
+import { parseEther, formatEther, PrivateKeyAccount } from "viem";
 import { type BaseError, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { erc20Abi } from "@/config/erc20Abi";
 import { zetoAnonAbi } from "@/config/zetoAnonAbi";
@@ -16,12 +16,41 @@ const zetoTokenAddress = "0xBf44A392daECE0576D9c0d2CCC3e2e9a6C603a47";
 export const Transfer = () => {
     const [amount, setAmount] = useState("");
     const [recipient, setRecipient] = useState("");
+    const [acctbalance, setAcctbalance] = useState("0");
     const { data: hash1, error: error1, isPending: isPending1, writeContract: writeContractApprove} = useWriteContract();
     const { data: hash2, error: error2, isPending: isPending2, writeContract: writeContractDeposit } = useWriteContract();
     const { data: hash3, error: error3, writeContract: writeContractMint } = useWriteContract();
+    let myAccount: PrivateKeyAccount;
 
-    const myAccount = privateKeyToAccount(`0x${process.env.NEXT_PUBLIC_PRIVATE_KEY}`)
-    console.log('account', myAccount.address)
+    //useEffect(()=> {
+        myAccount = privateKeyToAccount(`0x${process.env.NEXT_PUBLIC_PRIVATE_KEY}`)
+        console.log('account', myAccount.address)
+    //}, [])
+
+    const useGetBalance = ()=> {
+        const {refetch, data} =  useReadContract({
+            address: erc20Address,
+            abi: erc20Abi,
+            functionName: 'balanceOf',
+            args: [myAccount.address]
+        })
+        console.log('balance', data)
+        return {refetch, data};
+    } 
+
+    const {refetch:refetchBalance, data} = useGetBalance();
+
+    const handleBalance = async (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log('handlebalance', amount, recipient)
+        refetchBalance?.()
+        console.log('balance', data)
+        let balance2 = data as string
+        console.log('balance', balance2)
+        let balance3 = formatEther(data as bigint)
+        console.log('balance', balance3)
+        setAcctbalance(balance3)
+    }
 
     const handleMint = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,14 +62,6 @@ export const Transfer = () => {
             args: [myAccount.address, amount.toString()],
         });
     }
-
-    const { data: balance } = useReadContract({
-        address: erc20Address,
-        abi: erc20Abi,
-        functionName: 'balanceOf',
-        args: [myAccount.address]
-    })
-    console.log('balance', balance)
 
     const handleApprove = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -117,6 +138,14 @@ export const Transfer = () => {
                 />
             </div>
             <div></div>
+            <form onSubmit={handleBalance}>
+                <button  type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Balance</button>
+                {error3 && (
+                    <div>Error: {(error3 as BaseError).shortMessage || error3.message}</div>
+                )}
+                <div>
+                ERC20 token balance is : {acctbalance}</div>
+            </form> 
             <form onSubmit={handleMint}>
                 <button  type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Mint</button>
                 {error3 && (
